@@ -1,4 +1,4 @@
-# env-drift
+# keysmith
 
 > A schema-driven environment-variable validator for Node.js that keeps `.env.example` honest.
 
@@ -7,7 +7,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-Strict-blue.svg)](https://www.typescriptlang.org/)
 [![Dual ESM/CJS](https://img.shields.io/badge/Module-ESM%20%2B%20CJS-green.svg)](https://nodejs.org/)
 
-`env-drift` pairs runtime environment-variable validation with automated drift detection. It ensures your application gets strictly typed, validated configuration at boot time, and guarantees that your committed `.env.example` file and your source code never fall out of sync.
+`keysmith` pairs runtime environment-variable validation with automated drift detection. It ensures your application gets strictly typed, validated configuration at boot time, and guarantees that your committed `.env.example` file and your source code never fall out of sync.
 
 Feels as polished and minimal as `zod`, `dotenv`, or `chalk` — small API surface, zero unnecessary dependencies, strict TypeScript types, and aggregated terminal reports.
 
@@ -17,11 +17,11 @@ Feels as polished and minimal as `zod`, `dotenv`, or `chalk` — small API surfa
 
 - **Typed Schema Builder (`defineEnv`)**: Validate strings, numbers, booleans, URLs, and enums with automatic type coercion and exact TypeScript inference.
 - **Aggregated Error Reporting**: Never play whack-a-mole with missing environment variables. Reports every missing or malformed variable in a single, readable error.
-- **Drift Detection (`env-drift check`)**: In one command, cross-references:
+- **Drift Detection (`keysmith check`)**: In one command, cross-references:
   1. Variables declared in the schema but missing from `.env` or `.env.example`.
   2. Outdated variables lingering in `.env.example` that are no longer in the schema.
   3. Undeclared `process.env.X` references scattered across your `.ts` and `.js` source files with line numbers.
-- **Automated Sync (`env-drift sync`)**: Regenerates `.env.example` directly from the schema, including descriptions as comments, allowed enum values, and defaults or placeholders. Never modifies your actual `.env`.
+- **Automated Sync (`keysmith sync`)**: Regenerates `.env.example` directly from the schema, including descriptions as comments, allowed enum values, and defaults or placeholders. Never modifies your actual `.env`.
 - **Zero Unnecessary Runtime Dependencies**: Built with native Node.js capabilities and zero-dependency terminal styling. Uses only `jiti` for zero-config runtime loading of TypeScript and ESM/CJS schema files.
 - **Dual Build**: Native support for ESM and CommonJS with bundled TypeScript declarations.
 
@@ -31,16 +31,16 @@ Feels as polished and minimal as `zod`, `dotenv`, or `chalk` — small API surfa
 
 ```bash
 # npm
-npm install env-drift
+npm install keysmith
 
 # pnpm
-pnpm add env-drift
+pnpm add keysmith
 
 # yarn
-yarn add env-drift
+yarn add keysmith
 
 # bun
-bun add env-drift
+bun add keysmith
 ```
 
 ---
@@ -52,7 +52,7 @@ bun add env-drift
 Create `env.schema.ts` in your project root:
 
 ```ts
-import { defineEnv } from 'env-drift';
+import { defineEnv } from 'keysmith';
 
 export const env = defineEnv({
   PORT: {
@@ -109,7 +109,7 @@ Environment validation failed:
 ### 3. Check for drift
 
 ```bash
-npx env-drift check
+npx keysmith check
 ```
 
 ```
@@ -126,17 +126,17 @@ npx env-drift check
     • UNTRACKED_FEATURE_FLAG
         at src/server.ts:18:24
 
-Tip: Run `npx env-drift sync` to automatically synchronize .env.example.
+Tip: Run `npx keysmith sync` to automatically synchronize .env.example.
 ```
 
 ### 4. Synchronize `.env.example`
 
 ```bash
 # Preview changes before writing:
-npx env-drift sync --dry-run
+npx keysmith sync --dry-run
 
 # Write the updated .env.example:
-npx env-drift sync
+npx keysmith sync
 ```
 
 Generated `.env.example`:
@@ -280,7 +280,7 @@ defineEnv({
 For concise definitions, helper functions are available on `defineEnv`:
 
 ```ts
-import { defineEnv } from 'env-drift';
+import { defineEnv } from 'keysmith';
 
 export const env = defineEnv({
   PORT: defineEnv.number({ default: 3000 }),
@@ -300,7 +300,7 @@ export const env = defineEnv({
 Thrown by `defineEnv` when validation fails. Contains the structured list of problems:
 
 ```ts
-import { defineEnv, EnvValidationError } from 'env-drift';
+import { defineEnv, EnvValidationError } from 'keysmith';
 
 try {
   defineEnv({ ... });
@@ -319,7 +319,7 @@ try {
 
 ## CLI Reference
 
-### `npx env-drift check`
+### `npx keysmith check`
 
 Cross-references the declared schema, `.env`, `.env.example`, and source files to verify project alignment.
 
@@ -348,7 +348,7 @@ Cross-references the declared schema, `.env`, `.env.example`, and source files t
 
 ---
 
-### `npx env-drift sync`
+### `npx keysmith sync`
 
 Regenerates `.env.example` from the schema.
 
@@ -370,7 +370,7 @@ Regenerates `.env.example` from the schema.
 
 ## CI / GitHub Actions Integration
 
-Prevent drift from ever reaching your main branch by adding `env-drift check` to your CI workflow:
+Prevent drift from ever reaching your main branch by adding `keysmith check` to your CI workflow:
 
 ```yaml
 name: CI
@@ -391,7 +391,7 @@ jobs:
           node-version: 20
       - run: npm ci
       - name: Verify Environment Schema Alignment
-        run: npx env-drift check --ci --skip-env
+        run: npx keysmith check --ci --skip-env
 ```
 
 > **Note:** The `--skip-env` flag ignores checking for the local `.env` file, which is typically not committed to version control.
@@ -403,7 +403,7 @@ jobs:
 You can also use the check and sync tools programmatically in scripts or automated pipelines:
 
 ```ts
-import { runCheck, runSync } from 'env-drift';
+import { runCheck, runSync } from 'keysmith';
 
 // Run programmatic check
 const checkResult = await runCheck({ cwd: process.cwd() });

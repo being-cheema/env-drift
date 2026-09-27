@@ -55,7 +55,7 @@ export async function runSync(options: SyncOptions = {}): Promise<SyncResult> {
     lines.push(
       c.bold(
         c.cyan(
-          `${options.ci ? '[DRY-RUN]' : 'ℹ'} env-drift sync --dry-run: inspecting projected changes for ${relExample}`,
+          `${options.ci ? '[DRY-RUN]' : 'ℹ'} keysmith sync --dry-run: inspecting projected changes for ${relExample}`,
         ),
       ),
     );

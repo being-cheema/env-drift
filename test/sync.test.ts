@@ -4,9 +4,9 @@ import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { runSync } from '../src/commands/sync.js';
 
-describe('CLI command: env-drift sync', () => {
+describe('CLI command: keysmith sync', () => {
   it('correctly regenerates .env.example with descriptions and defaults', async () => {
-    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'env-drift-sync-test-'));
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'keysmith-sync-test-'));
 
     try {
       fs.writeFileSync(
@@ -55,7 +55,7 @@ export const schema = {
   });
 
   it('correctly no-ops and prints diff with --dry-run without modifying files', async () => {
-    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'env-drift-dryrun-test-'));
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'keysmith-dryrun-test-'));
 
     try {
       fs.writeFileSync(
@@ -89,7 +89,7 @@ export const schema = {
   });
 
   it('reports no changes when .env.example is already up to date', async () => {
-    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'env-drift-uptodate-test-'));
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'keysmith-uptodate-test-'));
 
     try {
       fs.writeFileSync(

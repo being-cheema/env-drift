@@ -74,7 +74,7 @@ export function readEnvFile(filePath: string): Record<string, string> | null {
 }
 
 /**
- * Generates formatted `.env.example` content from an env-drift schema.
+ * Generates formatted `.env.example` content from a keysmith schema.
  * Formats each field with its description comment above, plus allowed enum values and defaults.
  */
 export function formatEnvExample(schema: Schema): string {

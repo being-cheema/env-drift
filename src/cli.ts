@@ -1,6 +1,26 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { runCheck } from './commands/check.js';
 import { runSync } from './commands/sync.js';
 import { createColors } from './utils/colors.js';
+
+function getPackageVersion(): string {
+  try {
+    const dirname = path.dirname(fileURLToPath(import.meta.url));
+    const pkgPath = path.resolve(dirname, '../package.json');
+    if (fs.existsSync(pkgPath)) {
+      const content = fs.readFileSync(pkgPath, 'utf-8');
+      const parsed = JSON.parse(content);
+      if (parsed?.version) {
+        return parsed.version;
+      }
+    }
+  } catch {
+    // fallback
+  }
+  return '0.1.0';
+}
 
 interface CliArgs {
   command?: 'check' | 'sync' | 'help' | 'version';
@@ -58,10 +78,10 @@ function showHelp(ci?: boolean): void {
   const c = createColors({ ci });
 
   console.log(`
-${c.bold('env-drift')} - Schema-driven environment variable validator & .env.example synchronizer
+${c.bold('keysmith')} - Schema-driven environment variable validator & .env.example synchronizer
 
 ${c.bold('USAGE')}
-  ${c.cyan('$')} npx env-drift ${c.yellow('<command>')} [options]
+  ${c.cyan('$')} npx keysmith ${c.yellow('<command>')} [options]
 
 ${c.bold('COMMANDS')}
   ${c.yellow('check')}     Cross-reference schema, .env, .env.example, and source code for drift
@@ -79,16 +99,16 @@ ${c.bold('OPTIONS')}
 
 ${c.bold('EXAMPLES')}
   ${c.dim('# Check for drift locally')}
-  ${c.cyan('$')} npx env-drift check
+  ${c.cyan('$')} npx keysmith check
 
   ${c.dim('# Run in CI pipeline')}
-  ${c.cyan('$')} npx env-drift check --ci
+  ${c.cyan('$')} npx keysmith check --ci
 
   ${c.dim('# Preview .env.example changes')}
-  ${c.cyan('$')} npx env-drift sync --dry-run
+  ${c.cyan('$')} npx keysmith sync --dry-run
 
   ${c.dim('# Regenerate .env.example')}
-  ${c.cyan('$')} npx env-drift sync
+  ${c.cyan('$')} npx keysmith sync
 `);
 }
 
@@ -96,7 +116,7 @@ async function main(): Promise<void> {
   const args = parseArgs(process.argv.slice(2));
 
   if (args.version) {
-    console.log('env-drift v0.1.0');
+    console.log(`keysmith v${getPackageVersion()}`);
     process.exit(0);
   }
 

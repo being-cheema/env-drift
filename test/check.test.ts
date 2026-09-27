@@ -4,9 +4,9 @@ import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { runCheck } from '../src/commands/check.js';
 
-describe('CLI command: env-drift check', () => {
+describe('CLI command: keysmith check', () => {
   it('detects all 3 drift categories in a project with drift', async () => {
-    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'env-drift-check-test-'));
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'keysmith-check-test-'));
 
     try {
       // 1. Create schema with 3 vars: PORT, DATABASE_URL, REDIS_URL
@@ -85,7 +85,7 @@ const secret = process.env.UNDECLARED_SECRET;
   });
 
   it('passes cleanly when schema, .env, .env.example, and source code are in sync', async () => {
-    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'env-drift-clean-test-'));
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'keysmith-clean-test-'));
 
     try {
       fs.writeFileSync(
@@ -142,7 +142,7 @@ const db = process.env.DATABASE_URL;
   });
 
   it('formats plain text output when ci option is enabled', async () => {
-    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'env-drift-ci-test-'));
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'keysmith-ci-test-'));
 
     try {
       fs.writeFileSync(

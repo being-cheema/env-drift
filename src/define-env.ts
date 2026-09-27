@@ -12,7 +12,8 @@ import type {
 } from './types.js';
 import { validateAndCoerceField } from './validators.js';
 
-export const SCHEMA_SYMBOL = Symbol.for('env-drift.schema');
+export const SCHEMA_SYMBOL = Symbol.for('keysmith.schema');
+const LEGACY_SCHEMA_SYMBOL = Symbol.for('env-drift.schema');
 
 /**
  * Extracts the schema definition from an env object returned by defineEnv,
@@ -26,6 +27,9 @@ export function getSchema(target: unknown): Schema | undefined {
   // If created via defineEnv, schema is stored under SCHEMA_SYMBOL
   if (SCHEMA_SYMBOL in target) {
     return (target as any)[SCHEMA_SYMBOL];
+  }
+  if (LEGACY_SCHEMA_SYMBOL in target) {
+    return (target as any)[LEGACY_SCHEMA_SYMBOL];
   }
 
   // Check if target is a raw Schema object (keys with { type: ... })
@@ -52,7 +56,9 @@ export function getSchema(target: unknown): Schema | undefined {
  */
 function defineEnvImpl<S extends Schema>(schema: S, options: DefineEnvOptions = {}): InferEnv<S> {
   const source = options.source ?? process.env;
-  const skipValidation = options.skipValidation ?? process.env.ENV_DRIFT_CLI === '1';
+  const skipValidation =
+    options.skipValidation ??
+    (process.env.KEYSMITH_CLI === '1' || process.env.ENV_DRIFT_CLI === '1');
 
   const result: Record<string, any> = {};
   const issues: ValidationErrorIssue[] = [];

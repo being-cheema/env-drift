@@ -213,9 +213,7 @@ export function formatCheckReport(report: DriftReport, opts: FormatReportOptions
 
   // Help tip
   if (report.missingFromExample.length > 0 || report.extraInExample.length > 0) {
-    lines.push(
-      c.dim(`Tip: Run \`npx env-drift sync\` to automatically synchronize ${relExample}.`),
-    );
+    lines.push(c.dim(`Tip: Run \`npx keysmith sync\` to automatically synchronize ${relExample}.`));
   }
 
   return lines.join('\n');

@@ -1,5 +1,5 @@
 {
-  "name": "env-drift",
+  "name": "keysmith",
   "version": "0.1.0",
   "description": "A schema-driven environment-variable validator for Node.js that keeps .env.example honest",
   "keywords": [
@@ -24,7 +24,7 @@
   "author": "Cheema",
   "type": "module",
   "bin": {
-    "env-drift": "dist/cli.js"
+    "keysmith": "dist/cli.js"
   },
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",

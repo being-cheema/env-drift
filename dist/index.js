@@ -122,13 +122,17 @@ function validateAndCoerceField(key, rawVal, def) {
 }
 
 // src/define-env.ts
-var SCHEMA_SYMBOL = /* @__PURE__ */ Symbol.for("env-drift.schema");
+var SCHEMA_SYMBOL = /* @__PURE__ */ Symbol.for("keysmith.schema");
+var LEGACY_SCHEMA_SYMBOL = /* @__PURE__ */ Symbol.for("env-drift.schema");
 function getSchema(target) {
   if (!target || typeof target !== "object") {
     return void 0;
   }
   if (SCHEMA_SYMBOL in target) {
     return target[SCHEMA_SYMBOL];
+  }
+  if (LEGACY_SCHEMA_SYMBOL in target) {
+    return target[LEGACY_SCHEMA_SYMBOL];
   }
   const entries = Object.entries(target);
   if (entries.length > 0 && entries.every(
@@ -140,7 +144,7 @@ function getSchema(target) {
 }
 function defineEnvImpl(schema, options = {}) {
   const source = options.source ?? process.env;
-  const skipValidation = options.skipValidation ?? process.env.ENV_DRIFT_CLI === "1";
+  const skipValidation = options.skipValidation ?? (process.env.KEYSMITH_CLI === "1" || process.env.ENV_DRIFT_CLI === "1");
   const result = {};
   const issues = [];
   for (const [key, fieldDef] of Object.entries(schema)) {
@@ -442,8 +446,8 @@ Please create an env.schema.ts or specify the path with --schema <path>.`
 }
 async function loadSchema(customPath, cwd = process.cwd()) {
   const resolvedPath = resolveSchemaPath(customPath, cwd);
-  const prevEnvDriftCli = process.env.ENV_DRIFT_CLI;
-  process.env.ENV_DRIFT_CLI = "1";
+  const prevKeysmithCli = process.env.KEYSMITH_CLI;
+  process.env.KEYSMITH_CLI = "1";
   let mod;
   try {
     const jiti = createJiti(cwd, {
@@ -452,10 +456,10 @@ async function loadSchema(customPath, cwd = process.cwd()) {
     });
     mod = await jiti.import(resolvedPath);
   } finally {
-    if (prevEnvDriftCli === void 0) {
-      delete process.env.ENV_DRIFT_CLI;
+    if (prevKeysmithCli === void 0) {
+      delete process.env.KEYSMITH_CLI;
     } else {
-      process.env.ENV_DRIFT_CLI = prevEnvDriftCli;
+      process.env.KEYSMITH_CLI = prevKeysmithCli;
     }
   }
   const candidateExports = [
@@ -472,7 +476,7 @@ async function loadSchema(customPath, cwd = process.cwd()) {
     }
   }
   throw new Error(
-    `Failed to find a valid env-drift schema in ${resolvedPath}.
+    `Failed to find a valid keysmith schema in ${resolvedPath}.
 Ensure you export a defineEnv(...) result or a schema object.`
   );
 }
@@ -612,9 +616,7 @@ function formatCheckReport(report, opts) {
     lines.push("");
   }
   if (report.missingFromExample.length > 0 || report.extraInExample.length > 0) {
-    lines.push(
-      c.dim(`Tip: Run \`npx env-drift sync\` to automatically synchronize ${relExample}.`)
-    );
+    lines.push(c.dim(`Tip: Run \`npx keysmith sync\` to automatically synchronize ${relExample}.`));
   }
   return lines.join("\n");
 }
@@ -722,7 +724,7 @@ async function runSync(options = {}) {
     lines.push(
       c.bold(
         c.cyan(
-          `${options.ci ? "[DRY-RUN]" : "\u2139"} env-drift sync --dry-run: inspecting projected changes for ${relExample}`
+          `${options.ci ? "[DRY-RUN]" : "\u2139"} keysmith sync --dry-run: inspecting projected changes for ${relExample}`
         )
       )
     );

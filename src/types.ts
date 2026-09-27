@@ -1,5 +1,5 @@
 /**
- * Supported field types in env-drift.
+ * Supported field types in keysmith.
  */
 export type FieldType = 'string' | 'number' | 'boolean' | 'url' | 'enum';
 
@@ -115,7 +115,7 @@ export type InferField<T extends FieldDef> = T extends { default: InferFieldType
     : InferFieldType<T> | undefined;
 
 /**
- * Inferred typed environment object from an env-drift schema.
+ * Inferred typed environment object from a keysmith schema.
  */
 export type InferEnv<S extends Schema> = {
   readonly [K in keyof S]: InferField<S[K]>;

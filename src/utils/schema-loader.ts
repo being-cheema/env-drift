@@ -55,10 +55,10 @@ export async function loadSchema(
 ): Promise<LoadedSchemaResult> {
   const resolvedPath = resolveSchemaPath(customPath, cwd);
 
-  // Set ENV_DRIFT_CLI so that if the user's file calls defineEnv(...),
+  // Set KEYSMITH_CLI so that if the user's file calls defineEnv(...),
   // it bypasses runtime throwing if environment variables are not yet populated.
-  const prevEnvDriftCli = process.env.ENV_DRIFT_CLI;
-  process.env.ENV_DRIFT_CLI = '1';
+  const prevKeysmithCli = process.env.KEYSMITH_CLI;
+  process.env.KEYSMITH_CLI = '1';
 
   let mod: any;
   try {
@@ -68,10 +68,10 @@ export async function loadSchema(
     });
     mod = await jiti.import(resolvedPath);
   } finally {
-    if (prevEnvDriftCli === undefined) {
-      delete process.env.ENV_DRIFT_CLI;
+    if (prevKeysmithCli === undefined) {
+      delete process.env.KEYSMITH_CLI;
     } else {
-      process.env.ENV_DRIFT_CLI = prevEnvDriftCli;
+      process.env.KEYSMITH_CLI = prevKeysmithCli;
     }
   }
 
@@ -92,7 +92,7 @@ export async function loadSchema(
   }
 
   throw new Error(
-    `Failed to find a valid env-drift schema in ${resolvedPath}.\n` +
+    `Failed to find a valid keysmith schema in ${resolvedPath}.\n` +
       `Ensure you export a defineEnv(...) result or a schema object.`,
   );
 }

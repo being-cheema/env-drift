@@ -6,7 +6,7 @@ import { scanSourceTree } from '../src/utils/scanner.js';
 
 describe('Source code scanner', () => {
   it('detects process.env.X references across source files', () => {
-    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'env-drift-scanner-test-'));
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'keysmith-scanner-test-'));
 
     try {
       const srcDir = path.join(tempDir, 'src');
@@ -43,7 +43,7 @@ const { API_KEY, JWT_SECRET: secret } = process.env;
   });
 
   it('excludes node_modules and dist by default', () => {
-    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'env-drift-scanner-exclude-'));
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'keysmith-scanner-exclude-'));
 
     try {
       const nodeModulesDir = path.join(tempDir, 'node_modules', 'some-pkg');

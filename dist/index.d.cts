@@ -1,5 +1,5 @@
 /**
- * Supported field types in env-drift.
+ * Supported field types in keysmith.
  */
 type FieldType = 'string' | 'number' | 'boolean' | 'url' | 'enum';
 /**
@@ -91,7 +91,7 @@ type InferField<T extends FieldDef> = T extends {
     required: true;
 } ? InferFieldType<T> : InferFieldType<T> | undefined;
 /**
- * Inferred typed environment object from an env-drift schema.
+ * Inferred typed environment object from a keysmith schema.
  */
 type InferEnv<S extends Schema> = {
     readonly [K in keyof S]: InferField<S[K]>;
@@ -279,7 +279,7 @@ declare function parseEnvFile(content: string): Record<string, string>;
  */
 declare function readEnvFile(filePath: string): Record<string, string> | null;
 /**
- * Generates formatted `.env.example` content from an env-drift schema.
+ * Generates formatted `.env.example` content from a keysmith schema.
  * Formats each field with its description comment above, plus allowed enum values and defaults.
  */
 declare function formatEnvExample(schema: Schema): string;
