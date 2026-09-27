@@ -1,0 +1,75 @@
+{
+  "name": "env-drift",
+  "version": "0.1.0",
+  "description": "A schema-driven environment-variable validator for Node.js that keeps .env.example honest",
+  "keywords": [
+    "env",
+    "environment",
+    "schema",
+    "validation",
+    "dotenv",
+    "env-example",
+    "cli",
+    "typescript"
+  ],
+  "homepage": "https://github.com/being-cheema/env-drift#readme",
+  "bugs": {
+    "url": "https://github.com/being-cheema/env-drift/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/being-cheema/env-drift.git"
+  },
+  "license": "MIT",
+  "author": "Cheema",
+  "type": "module",
+  "bin": {
+    "env-drift": "./dist/cli.js"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "prepack": "npm run build",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "jiti": "^2.4.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.5",
+    "@typescript-eslint/eslint-plugin": "^8.25.0",
+    "@typescript-eslint/parser": "^8.25.0",
+    "eslint": "^9.21.0",
+    "eslint-config-prettier": "^10.0.1",
+    "prettier": "^3.5.2",
+    "tsup": "^8.4.0",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.70.1",
+    "vitest": "^3.0.6"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
