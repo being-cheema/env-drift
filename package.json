@@ -12,13 +12,13 @@
     "cli",
     "typescript"
   ],
-  "homepage": "https://github.com/being-cheema/env-drift#readme",
+  "homepage": "https://github.com/being-cheema/keysmith#readme",
   "bugs": {
-    "url": "https://github.com/being-cheema/env-drift/issues"
+    "url": "https://github.com/being-cheema/keysmith/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/being-cheema/env-drift.git"
+    "url": "git+https://github.com/being-cheema/keysmith.git"
   },
   "license": "MIT",
   "author": "Cheema",

@@ -2,7 +2,7 @@
 
 > A schema-driven environment-variable validator for Node.js that keeps `.env.example` honest.
 
-[![CI](https://github.com/being-cheema/env-drift/actions/workflows/ci.yml/badge.svg)](https://github.com/being-cheema/env-drift/actions/workflows/ci.yml)
+[![CI](https://github.com/being-cheema/keysmith/actions/workflows/ci.yml/badge.svg)](https://github.com/being-cheema/keysmith/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Strict-blue.svg)](https://www.typescriptlang.org/)
 [![Dual ESM/CJS](https://img.shields.io/badge/Module-ESM%20%2B%20CJS-green.svg)](https://nodejs.org/)
