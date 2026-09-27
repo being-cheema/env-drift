@@ -24,7 +24,7 @@
   "author": "Cheema",
   "type": "module",
   "bin": {
-    "env-drift": "./dist/cli.js"
+    "env-drift": "dist/cli.js"
   },
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
